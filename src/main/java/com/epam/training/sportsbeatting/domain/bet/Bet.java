@@ -13,6 +13,7 @@ import com.epam.training.sportsbeatting.domain.sportevent.SportEvent;
 public class Bet {
 
     private SportEvent sportEvent;
+    private String description;
     private List<Outcome> outcomes;
 
 }
