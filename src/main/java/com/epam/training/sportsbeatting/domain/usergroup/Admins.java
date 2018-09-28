@@ -1,4 +1,4 @@
-package com.epam.training.sportsbeatting.domain.user.usergroup;
+package com.epam.training.sportsbeatting.domain.usergroup;
 
 import lombok.experimental.SuperBuilder;
 

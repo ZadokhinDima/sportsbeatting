@@ -1,6 +1,6 @@
 package com.epam.training.sportsbeatting.domain.user;
 
-import com.epam.training.sportsbeatting.domain.user.usergroup.UserGroup;
+import com.epam.training.sportsbeatting.domain.usergroup.UserGroup;
 import lombok.experimental.SuperBuilder;
 
 @SuperBuilder

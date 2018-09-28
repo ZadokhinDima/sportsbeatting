@@ -1,6 +1,5 @@
-package com.epam.training.sportsbeatting.domain.user.usergroup;
+package com.epam.training.sportsbeatting.domain.usergroup;
 
-import lombok.Builder;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
