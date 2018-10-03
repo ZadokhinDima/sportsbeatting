@@ -1,7 +1,13 @@
 package com.epam.training.sportsbeatting.domain.usergroup;
 
-import lombok.experimental.SuperBuilder;
+import lombok.Builder;
+import lombok.Data;
 
-@SuperBuilder
-public class FootballAdmins extends UserGroup{
+@Data
+public class FootballAdmins extends UserGroup {
+
+    @Builder
+    public FootballAdmins(final Long id) {
+        super(id);
+    }
 }

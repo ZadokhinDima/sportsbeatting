@@ -1,9 +1,10 @@
 package com.epam.training.sportsbeatting.domain.user;
 
-import lombok.NoArgsConstructor;
-import lombok.experimental.SuperBuilder;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 
-@SuperBuilder
-@NoArgsConstructor
+@AllArgsConstructor
+@Data
 public abstract class User {
+    private Long id;
 }

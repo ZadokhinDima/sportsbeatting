@@ -1,9 +1,10 @@
 package com.epam.training.sportsbeatting.domain.usergroup;
 
-import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 @SuperBuilder
-@NoArgsConstructor
+@AllArgsConstructor
 public abstract class UserGroup {
+    private Long id;
 }

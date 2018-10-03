@@ -1,7 +1,7 @@
 package com.epam.training.sportsbeatting.domain.sportevent;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -9,9 +9,10 @@ import java.util.List;
 import com.epam.training.sportsbeatting.domain.bet.Bet;
 
 @Data
-@SuperBuilder
+@AllArgsConstructor
 public abstract class SportEvent {
 
+    private Long id;
     private String title;
     private LocalDate startDate;
     private LocalDate endDate;

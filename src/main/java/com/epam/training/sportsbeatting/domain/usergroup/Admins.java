@@ -1,7 +1,12 @@
 package com.epam.training.sportsbeatting.domain.usergroup;
 
-import lombok.experimental.SuperBuilder;
+import lombok.Builder;
 
-@SuperBuilder
+@Builder
 public class Admins extends UserGroup {
+
+    @Builder
+    public Admins(final Long id) {
+        super(id);
+    }
 }

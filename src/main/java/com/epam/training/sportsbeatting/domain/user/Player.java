@@ -1,10 +1,11 @@
 package com.epam.training.sportsbeatting.domain.user;
 
-import lombok.experimental.SuperBuilder;
+import lombok.Builder;
+import lombok.Data;
 
 import java.time.LocalDate;
 
-@SuperBuilder
+@Data
 public class Player extends User {
 
     public enum Currency {
@@ -17,4 +18,14 @@ public class Player extends User {
     private Currency currency;
     private LocalDate dateOfBirth;
 
+    @Builder
+    public Player(final Long id, final String name, final String accountNumber, final long balance,
+                  final Currency currency, final LocalDate dateOfBirth) {
+        super(id);
+        this.name = name;
+        this.accountNumber = accountNumber;
+        this.balance = balance;
+        this.currency = currency;
+        this.dateOfBirth = dateOfBirth;
+    }
 }
