@@ -1,14 +1,16 @@
 package com.epam.training.sportsbeatting.domain.wager;
 
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
 import com.epam.training.sportsbeatting.domain.outcome.OutcomeOdd;
 import com.epam.training.sportsbeatting.domain.user.Player;
 
-@Data
+@Setter
+@Getter
 public class Wager {
 
     private Long id;

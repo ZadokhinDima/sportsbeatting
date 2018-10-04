@@ -1,11 +1,13 @@
 package com.epam.training.sportsbeatting.domain.outcome;
 
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDate;
 
-@Data
+@Setter
+@Getter
 public class OutcomeOdd {
 
     private Long id;

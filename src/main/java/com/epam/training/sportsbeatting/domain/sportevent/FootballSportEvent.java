@@ -1,14 +1,16 @@
 package com.epam.training.sportsbeatting.domain.sportevent;
 
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDate;
 import java.util.List;
 
 import com.epam.training.sportsbeatting.domain.bet.Bet;
 
-@Data
+@Setter
+@Getter
 public class FootballSportEvent extends SportEvent {
 
     @Builder
