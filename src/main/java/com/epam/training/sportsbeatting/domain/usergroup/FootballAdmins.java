@@ -1,9 +1,11 @@
 package com.epam.training.sportsbeatting.domain.usergroup;
 
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Setter
+@Getter
 public class FootballAdmins extends UserGroup {
 
     @Builder

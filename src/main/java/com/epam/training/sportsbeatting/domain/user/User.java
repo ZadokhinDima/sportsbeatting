@@ -1,10 +1,21 @@
 package com.epam.training.sportsbeatting.domain.user;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
+import java.time.LocalDate;
+
+@Setter
+@Getter
 @AllArgsConstructor
-@Data
 public abstract class User {
+
     private Long id;
+    private String name;
+    private String accountNumber;
+    private long balance;
+    private Player.Currency currency;
+    private LocalDate dateOfBirth;
+
 }
