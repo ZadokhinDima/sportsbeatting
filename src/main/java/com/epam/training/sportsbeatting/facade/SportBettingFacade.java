@@ -8,6 +8,6 @@ public interface SportBettingFacade {
 
     void performBets();
 
-    void calculateResults();
+    void simulateGameResults();
 
 }

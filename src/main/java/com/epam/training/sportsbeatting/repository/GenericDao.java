@@ -3,7 +3,9 @@ package com.epam.training.sportsbeatting.repository;
 import java.util.Collection;
 import java.util.List;
 
-public interface GenericDao<T> {
+import com.epam.training.sportsbeatting.domain.PersistableObject;
+
+public interface GenericDao<T extends PersistableObject> {
 
     void save(T item);
 
@@ -14,6 +16,8 @@ public interface GenericDao<T> {
     List<T> getAll();
 
     void remove(T item);
+
+    void refresh(T item);
 
     void removeAll(Collection<T> items);
 

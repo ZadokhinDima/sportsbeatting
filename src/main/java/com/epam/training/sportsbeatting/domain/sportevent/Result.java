@@ -6,18 +6,18 @@ import lombok.Setter;
 
 import java.util.List;
 
+import com.epam.training.sportsbeatting.domain.PersistableObject;
 import com.epam.training.sportsbeatting.domain.outcome.Outcome;
 
 @Setter
 @Getter
-public class Result {
+public class Result extends PersistableObject {
 
-    private Long id;
     private List<Outcome> outcomes;
 
     @Builder
     public Result(final Long id, final List<Outcome> outcomes) {
-        this.id = id;
+        super(id);
         this.outcomes = outcomes;
     }
 

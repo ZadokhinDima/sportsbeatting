@@ -18,7 +18,7 @@ public class SportsbeattingApplication implements CommandLineRunner {
 		sportBettingFacade.initData();
 		sportBettingFacade.registerUser();
 		sportBettingFacade.performBets();
-		sportBettingFacade.calculateResults();
+        sportBettingFacade.simulateGameResults();
 	}
 
 	public static void main(String[] args) {

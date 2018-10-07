@@ -1,21 +1,22 @@
 package com.epam.training.sportsbeatting.domain.user;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDate;
+import com.epam.training.sportsbeatting.domain.PersistableObject;
 
 @Setter
 @Getter
-@AllArgsConstructor
-public abstract class User {
+public abstract class User extends PersistableObject {
 
-    private Long id;
-    private String name;
-    private String accountNumber;
-    private long balance;
-    private Player.Currency currency;
-    private LocalDate dateOfBirth;
+    private String username;
+    private String password;
+    private boolean enabled;
 
+    public User(final Long id, final String username, final String password, final boolean enabled) {
+        super(id);
+        this.username = username;
+        this.password = password;
+        this.enabled = enabled;
+    }
 }

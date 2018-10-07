@@ -6,22 +6,29 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.epam.training.sportsbeatting.domain.PersistableObject;
 import com.epam.training.sportsbeatting.repository.GenericDao;
 
-public abstract class GenericInMemoryDao<T> implements GenericDao<T> {
+public abstract class GenericInMemoryDao<T extends PersistableObject> implements GenericDao<T> {
 
-    protected Long autoIncrement = 0L;
-    protected Map<Long, T> storage = new HashMap<>();
+    private Long autoIncrement = 0L;
+    private Map<Long, T> storage = new HashMap<>();
 
     @Override
     public void save(final T item) {
         autoIncrement++;
         storage.put(autoIncrement, item);
+        item.setId(autoIncrement);
     }
 
     @Override
     public T get(final Long id) {
         return storage.get(id);
+    }
+
+    @Override
+    public void refresh(final T item) {
+
     }
 
     @Override
@@ -35,7 +42,13 @@ public abstract class GenericInMemoryDao<T> implements GenericDao<T> {
     }
 
     @Override
+    public void remove(final T item) {
+        storage.remove(item.getId());
+    }
+
+    @Override
     public void removeAll(final Collection<T> items) {
         items.forEach(this::remove);
     }
+
 }

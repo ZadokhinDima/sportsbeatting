@@ -10,14 +10,26 @@ import java.time.LocalDate;
 @Getter
 public class Player extends User {
 
+    private String name;
+    private String accountNumber;
+    private long balance;
+    private Player.Currency currency;
+    private LocalDate dateOfBirth;
+
     @Builder
-    public Player(final Long id, final String name, final String accountNumber, final long balance,
-                  final Currency currency, final LocalDate dateOfBirth) {
-        super(id, name, accountNumber, balance, currency, dateOfBirth);
+    public Player(final Long id, final String username, final String password, final boolean enabled,
+                  final String name, final String accountNumber, final long balance, final Currency currency,
+                  final LocalDate dateOfBirth) {
+        super(id, username, password, enabled);
+        this.name = name;
+        this.accountNumber = accountNumber;
+        this.balance = balance;
+        this.currency = currency;
+        this.dateOfBirth = dateOfBirth;
     }
 
     public enum Currency {
-        HUF, USD, EUR
+        UAH, USD, EUR;
     }
 
 }
