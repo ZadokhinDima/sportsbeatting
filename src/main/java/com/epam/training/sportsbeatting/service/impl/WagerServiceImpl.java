@@ -1,10 +1,10 @@
 package com.epam.training.sportsbeatting.service.impl;
 
-import com.epam.training.sportsbeatting.domain.outcome.OutcomeOdd;
 import com.epam.training.sportsbeatting.domain.sportevent.Result;
 import com.epam.training.sportsbeatting.domain.sportevent.SportEvent;
 import com.epam.training.sportsbeatting.domain.user.Player;
 import com.epam.training.sportsbeatting.domain.wager.Wager;
+import com.epam.training.sportsbeatting.exception.NotEnoughBalanceException;
 import com.epam.training.sportsbeatting.repository.WagerDao;
 import com.epam.training.sportsbeatting.service.SessionContextService;
 import com.epam.training.sportsbeatting.service.UserBalanceService;
@@ -25,15 +25,14 @@ public class WagerServiceImpl implements WagerService {
     private SessionContextService sessionContextService;
 
     @Override
-    public void placeWager(final OutcomeOdd outcomeOdd, final Long amountOfMoney) {
+    public void placeWager(Wager wager) throws NotEnoughBalanceException {
         final Player sessionUser = (Player) sessionContextService.getSessionUser();
-        userBalanceService.processUserBalanceUpdate(sessionUser, amountOfMoney,
-                UserBalanceService.UpdateBalanceType.SPENDING);
+        userBalanceService.processUserBalanceSpending(sessionUser, wager.getAmount());
         final Wager newWager = Wager.builder()
-                .amount(amountOfMoney)
+                .amount(wager.getAmount())
                 .player(sessionUser)
                 .currency(sessionUser.getCurrency())
-                .outcomeOdd(outcomeOdd)
+                .outcomeOdd(wager.getOutcomeOdd())
                 .processed(false)
                 .build();
         wagerDao.save(newWager);
@@ -60,8 +59,7 @@ public class WagerServiceImpl implements WagerService {
         final boolean isWon = result.getOutcomes().contains(wager.getOutcomeOdd().getOutcome());
         final Player sessionUser = (Player) sessionContextService.getSessionUser();
         wager.setWon(isWon);
-        userBalanceService.processUserBalanceUpdate(sessionUser, calculateWagerPrize(wager),
-                UserBalanceService.UpdateBalanceType.ADDITION);
+        userBalanceService.processUserBalanceAddition(sessionUser, calculateWagerPrize(wager));
         wager.setProcessed(true);
         wagerDao.save(wager);
     }

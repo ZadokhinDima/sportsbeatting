@@ -2,6 +2,7 @@ package com.epam.training.sportsbeatting.ui.service.impl;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -11,6 +12,9 @@ import com.epam.training.sportsbeatting.domain.outcome.Outcome;
 import com.epam.training.sportsbeatting.domain.outcome.OutcomeOdd;
 import com.epam.training.sportsbeatting.domain.sportevent.SportEvent;
 import com.epam.training.sportsbeatting.domain.user.Player;
+import com.epam.training.sportsbeatting.domain.wager.Wager;
+import com.epam.training.sportsbeatting.exception.NotEnoughBalanceException;
+import com.epam.training.sportsbeatting.service.WagerService;
 import com.epam.training.sportsbeatting.ui.service.InputOutputService;
 import com.epam.training.sportsbeatting.ui.service.UserInteractionService;
 
@@ -40,6 +44,9 @@ public class ConsoleUserInteractionService implements UserInteractionService {
     @Autowired
     private InputOutputService ioService;
 
+    @Autowired
+    private WagerService wagerService;
+
     @Override
     public Player getUserRegistrationInfo() {
         final Player.PlayerBuilder builder = Player.builder();
@@ -52,7 +59,29 @@ public class ConsoleUserInteractionService implements UserInteractionService {
     }
 
     @Override
-    public Optional<OutcomeOdd> askUserForOutcomeOdd(final List<SportEvent> sportEvents) {
+    public List<Wager> askForWagers(List<SportEvent> sportEvents) {
+        List<Wager> result = new ArrayList<>();
+        Optional<Wager> currentWager;
+        do {
+            currentWager = Optional.empty();
+            final Optional<OutcomeOdd> outcomeOdd = askUserForOutcomeOdd(sportEvents);
+            if (outcomeOdd.isPresent()) {
+                currentWager = createWagerForOutcomeOdd(outcomeOdd.get());
+            }
+            try {
+               if (currentWager.isPresent()) {
+                   wagerService.placeWager(currentWager.get());
+               }
+            } catch (NotEnoughBalanceException exception) {
+                ioService.print("User balance is too low for operation.");
+                continue;
+            }
+            currentWager.ifPresent(result::add);
+        } while (currentWager.isPresent());
+        return result;
+    }
+
+    private Optional<OutcomeOdd> askUserForOutcomeOdd(final List<SportEvent> sportEvents) {
         final Optional<SportEvent> sportEvent = chooseFromList(CHOOSE_SPORT_EVENT, sportEvents);
         if (!sportEvent.isPresent()) {
             return Optional.empty();
@@ -64,9 +93,12 @@ public class ConsoleUserInteractionService implements UserInteractionService {
         return chooseFromList(CHOOSE_OUTCOME, getAvailableOutcomeOddsForBet(bet.get()));
     }
 
+    private Optional<Wager> createWagerForOutcomeOdd(final OutcomeOdd outcomeOdd) {
+        Optional<Long> moneyForBet = getAmountOfMoneyForBet();
+        return moneyForBet.map(aLong -> Wager.builder().amount(aLong).outcomeOdd(outcomeOdd).build());
+    }
 
-    @Override
-    public Optional<Long> getAmountOfMoneyForBet() {
+    private Optional<Long> getAmountOfMoneyForBet() {
         ioService.print(INPUT_AMOUNT_OF_MONEY);
         final String input = ioService.read();
         if (input.equals("q")) {

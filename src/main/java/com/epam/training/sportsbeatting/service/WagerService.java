@@ -1,12 +1,12 @@
 package com.epam.training.sportsbeatting.service;
 
-import com.epam.training.sportsbeatting.domain.outcome.OutcomeOdd;
 import com.epam.training.sportsbeatting.domain.sportevent.SportEvent;
 import com.epam.training.sportsbeatting.domain.wager.Wager;
+import com.epam.training.sportsbeatting.exception.NotEnoughBalanceException;
 
 public interface WagerService {
 
-    void placeWager(OutcomeOdd outcomeOdd, Long amountOfMoney);
+    void placeWager(Wager wager) throws NotEnoughBalanceException;
 
     void processWagersForSportEvent(SportEvent sportEvent);
 

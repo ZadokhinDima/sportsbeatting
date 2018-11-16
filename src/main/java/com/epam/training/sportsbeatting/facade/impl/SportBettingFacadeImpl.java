@@ -1,9 +1,7 @@
 package com.epam.training.sportsbeatting.facade.impl;
 
 import java.util.List;
-import java.util.Optional;
 
-import com.epam.training.sportsbeatting.domain.outcome.OutcomeOdd;
 import com.epam.training.sportsbeatting.domain.sportevent.SportEvent;
 import com.epam.training.sportsbeatting.domain.user.Player;
 import com.epam.training.sportsbeatting.facade.SportBettingFacade;
@@ -54,32 +52,9 @@ public class SportBettingFacadeImpl implements SportBettingFacade {
 
     @Override
     public void performBets() {
-        Optional<OutcomeOdd> outComeOddFromPlayer = userInteractionService
-                .askUserForOutcomeOdd(sportEventService.getAvailableSportEventsForWager());
-        while (outComeOddFromPlayer.isPresent()) {
-            final boolean wagerPlaced = placeWagerForOutcomeOdd(outComeOddFromPlayer.get());
-            if (!wagerPlaced) {
-                break;
-            }
-            outComeOddFromPlayer = userInteractionService
-                    .askUserForOutcomeOdd(sportEventService.getAvailableSportEventsForWager());
-        }
+        final List<SportEvent> events = sportEventService.getAvailableSportEventsForWager();
+        userInteractionService.askForWagers(events);
     }
-
-    private boolean placeWagerForOutcomeOdd(final OutcomeOdd outcomeOdd) {
-        Optional<Long> moneyForBet = userInteractionService.getAmountOfMoneyForBet();
-        while (moneyForBet.isPresent() && !userBalanceService.checkUserBalance(moneyForBet.get())) {
-            moneyForBet = userInteractionService.getAmountOfMoneyForBet();
-        }
-        if (!moneyForBet.isPresent()) {
-            return false;
-        } else {
-            wagerService.placeWager(outcomeOdd, moneyForBet.get());
-            userInteractionService.printUserBalance((Player) sessionContextService.getSessionUser());
-            return true;
-        }
-    }
-
 
     @Override
     public void simulateGameResults() {
@@ -89,4 +64,5 @@ public class SportBettingFacadeImpl implements SportBettingFacade {
         sportEvents.forEach(wagerService::processWagersForSportEvent);
         userInteractionService.printUserBalance((Player) sessionContextService.getSessionUser());
     }
+
 }

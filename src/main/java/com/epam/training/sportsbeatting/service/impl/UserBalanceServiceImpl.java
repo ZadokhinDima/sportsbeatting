@@ -1,6 +1,7 @@
 package com.epam.training.sportsbeatting.service.impl;
 
 import com.epam.training.sportsbeatting.domain.user.Player;
+import com.epam.training.sportsbeatting.exception.NotEnoughBalanceException;
 import com.epam.training.sportsbeatting.repository.PlayerDao;
 import com.epam.training.sportsbeatting.service.SessionContextService;
 import com.epam.training.sportsbeatting.service.UserBalanceService;
@@ -24,18 +25,22 @@ public class UserBalanceServiceImpl implements UserBalanceService {
     }
 
     @Override
-    public void processUserBalanceUpdate(final Player player, final Long amount, final UpdateBalanceType type) {
-        playerDao.refresh(player);
-        long playerBalance = player.getBalance();
-        if (type == UpdateBalanceType.ADDITION) {
-            playerBalance += amount;
+    public void processUserBalanceSpending(final Player player, final Long amount) throws NotEnoughBalanceException {
+        if (checkUserBalance(amount)) {
+            final long newBalance = player.getBalance() - amount;
+            player.setBalance(newBalance);
+            playerDao.save(player);
         } else {
-            if (amount > playerBalance) {
-                throw new RuntimeException("Not enough money.");
-            }
-            playerBalance -= amount;
+            throw new NotEnoughBalanceException();
         }
-        player.setBalance(playerBalance);
+    }
+
+    @Override
+    public void processUserBalanceAddition(final Player player, final Long amount) {
+        playerDao.refresh(player);
+        final long newBalance = player.getBalance() + amount;
+        player.setBalance(newBalance);
         playerDao.save(player);
     }
+
 }
