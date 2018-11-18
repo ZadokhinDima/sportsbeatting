@@ -57,9 +57,8 @@ public class WagerServiceImpl implements WagerService {
 
     private void processWager(final Wager wager, final Result result) {
         final boolean isWon = result.getOutcomes().contains(wager.getOutcomeOdd().getOutcome());
-        final Player sessionUser = (Player) sessionContextService.getSessionUser();
         wager.setWon(isWon);
-        userBalanceService.processUserBalanceAddition(sessionUser, calculateWagerPrize(wager));
+        userBalanceService.processUserBalanceAddition(wager.getPlayer(), calculateWagerPrize(wager));
         wager.setProcessed(true);
         wagerDao.save(wager);
     }
