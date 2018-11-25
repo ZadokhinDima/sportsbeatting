@@ -21,6 +21,9 @@ import com.epam.training.sportsbeatting.ui.service.UserInteractionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkElementIndex;
+
 @Component
 public class ConsoleUserInteractionService implements UserInteractionService {
 
@@ -41,11 +44,15 @@ public class ConsoleUserInteractionService implements UserInteractionService {
 
     private static final String INPUT_AMOUNT_OF_MONEY = "How much do you want to bet on it? (q for quit)";
 
-    @Autowired
-    private InputOutputService ioService;
+    private final InputOutputService ioService;
+
+    private final WagerService wagerService;
 
     @Autowired
-    private WagerService wagerService;
+    public ConsoleUserInteractionService(final InputOutputService ioService, final WagerService wagerService) {
+        this.ioService = ioService;
+        this.wagerService = wagerService;
+    }
 
     @Override
     public Player getUserRegistrationInfo() {
@@ -104,7 +111,10 @@ public class ConsoleUserInteractionService implements UserInteractionService {
         if (input.equals("q")) {
             return Optional.empty();
         } else {
-            return Optional.of(Long.valueOf(input));
+            checkArgument(input.matches("\\d+"), "Digital value expected.");
+            final long amount = Long.parseLong(input);
+            checkArgument(amount >= 0, "Amount cannot be negative.");
+            return Optional.of(amount);
         }
     }
 
@@ -129,12 +139,16 @@ public class ConsoleUserInteractionService implements UserInteractionService {
     private void askForAccountNumber(Player.PlayerBuilder builder) {
         ioService.print(QUESTION_ACCOUNT_NUMBER);
         final String accountNumber = ioService.read();
+        checkArgument(accountNumber.matches("\\d+"), "Digital value expected.");
         builder.accountNumber(accountNumber);
     }
 
     private void askForUserBalance(Player.PlayerBuilder builder) {
         ioService.print(QUESTION_BALANCE);
-        final long userBalance = Long.parseLong(ioService.read());
+        final String input = ioService.read();
+        checkArgument(input.matches("\\d+"), "Digital value expected.");
+        final long userBalance = Long.parseLong(input);
+        checkArgument(userBalance >= 0, "UBalance cannot be negative.");
         builder.balance(userBalance);
     }
 
@@ -159,7 +173,10 @@ public class ConsoleUserInteractionService implements UserInteractionService {
         if (input.equals("q")) {
             return Optional.empty();
         } else {
-            return Optional.of(variants.get(Integer.parseInt(input) - 1));
+            checkArgument(input.matches("\\d+"), "Not an index.");
+            final int index = Integer.parseInt(input);
+            checkElementIndex(index - 1, variants.size());
+            return Optional.of(variants.get(index - 1));
         }
     }
 
