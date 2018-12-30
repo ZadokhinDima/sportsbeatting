@@ -12,7 +12,7 @@ import com.epam.training.sportsbeatting.repository.GenericDao;
 public abstract class GenericInMemoryDao<T extends PersistableObject> implements GenericDao<T> {
 
     private Long autoIncrement = 0L;
-    private Map<Long, T> storage = new HashMap<>();
+    protected Map<Long, T> storage = new HashMap<>();
 
     @Override
     public void save(final T item) {

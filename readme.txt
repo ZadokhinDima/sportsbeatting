@@ -3,4 +3,7 @@ Technologies:
 -Java
 -Maven
 -Spring Core
+-Spring Boot
+-Spring MVC
+-Spring Security
 -Jenkins

@@ -5,6 +5,9 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.Collections;
+
+import com.epam.training.sportsbeatting.domain.usergroup.UserGroup;
 
 @Setter
 @Getter
@@ -17,10 +20,11 @@ public class Player extends User {
     private LocalDate dateOfBirth;
 
     @Builder
-    public Player(final Long id, final String username, final String password, final boolean enabled,
-                  final String name, final String accountNumber, final long balance, final Currency currency,
-                  final LocalDate dateOfBirth) {
-        super(id, username, password, enabled);
+    public Player(final Long id, final String username, final String password,
+                  final boolean enabled, final String name, final String accountNumber, final long balance,
+                  final Currency currency, final LocalDate dateOfBirth) {
+        super(id, username, password, Collections.singletonList(UserGroup.builder().authority("player").build()),
+                enabled);
         this.name = name;
         this.accountNumber = accountNumber;
         this.balance = balance;
@@ -29,7 +33,7 @@ public class Player extends User {
     }
 
     public enum Currency {
-        UAH, USD, EUR;
+        UAH, USD, EUR
     }
 
 }
