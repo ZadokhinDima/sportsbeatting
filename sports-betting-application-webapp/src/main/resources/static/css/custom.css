@@ -4,6 +4,16 @@
     margin: 0 auto;
 }
 
+.form-registration {
+    max-width: 550px;
+    padding: 10% 15px 15px;
+    margin: 0 auto;
+}
+
 .form-signin .btn {
     width: 100%;
+}
+
+.hide {
+    visibility: hidden;
 }
