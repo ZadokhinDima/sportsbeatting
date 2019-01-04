@@ -6,9 +6,14 @@
     <title>Please sign in</title>
     <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/4.1.0/css/bootstrap.min.css"/>
     <link rel="stylesheet" type="text/css" href="/css/custom.css"/>
+    <script src="/webjars/jquery/3.0.0/jquery.min.js"></script>
     <script src="/js/scripts.js"></script>
 </head>
 <body>
+<div class="login-top-bar">
+    <h2>Welcome to SportsBet!</h2>
+    <p>Sports betting is the activity of predicting sports results and placing a wager on the outcome.</p>
+</div>
 <div class="container">
     <div class="login-page">
         <form method="post" class="form-signin" action="/login">
@@ -34,12 +39,15 @@
             </div>
             <input name="${_csrf.parameterName}" type="hidden" value="${_csrf.token}"/>
             <button type="submit" class="btn btn-primary">Sign in</button>
-            <label class="sr-only">Don`t have an account? <a onclick="switchToRegisterForm">Register</a></label>
+            <div class="form-group">
+                <p>Don`t have an account? <a href="javascript:void(0);" onclick="switchToRegisterForm()">Register</a>
+                </p>
+            </div>
         </form>
     </div>
     <div class="registration-page hide">
-        <form method="post" class="form-signin" action="/register">
-            <h2 class="">Please fill in information about you</h2>
+        <form method="post" class="form-registration" action="/registration">
+            <h2>Please fill in information about you</h2>
             <div class="form-group">
                 <label for="username" class="sr-only">Username</label>
                 <input type="text" class="form-control" name="username" placeholder="Username" required
@@ -49,10 +57,28 @@
                 <label for="password" class="sr-only">Password</label>
                 <input type="password" class="form-control" name="password" placeholder="Password">
             </div>
+            <div class="form-group">
+                <input type="text" class="form-control" name="name" placeholder="Your real name">
+            </div>
+            <div class="form-group">
+                <input type="text" onfocus="(this.type='date')" onblur="if(this.value===''){this.type='text'}"
+                       class="form-control" name="birthDate" placeholder="Date of Birth">
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control" name="accountNumber" placeholder="Account number">
+            </div>
+            <div class="input-group form-group">
+                <input type="text" class="form-control" name="balance" placeholder="Balance">
+                <select class="form-control currency-selector" name="currency">
+                    <option selected>UAH</option>
+                    <option>USD</option>
+                    <option>EUR</option>
+                </select>
+            </div>
             <button type="submit" class="btn btn-primary">Register</button>
-            <label class="sr-only">Already have an account? <a onclick="switchToLoginForm">Sign In</a></label>
+            <p>Already have an account? <a href="javascript:void(0);" onclick="switchToLoginForm()">Sign In</a></p>
         </form>
     </div>
-
+</div>
 </body>
 </html>

@@ -19,6 +19,11 @@ public class SportBettingController {
         return "login";
     }
 
+    @RequestMapping("/registration")
+    public String registration() {
+        return "index";
+    }
+
     @RequestMapping("/")
     public String index() {
         return "index";
