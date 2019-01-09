@@ -23,9 +23,9 @@ public class InMemoryUserDao extends GenericInMemoryDao<User> implements UserDao
     private void init() {
         User player = Player.builder()
                 .balance(1000)
-                .accountNumber("Number")
-                .username("testPlayer")
-                .password(new BCryptPasswordEncoder().encode("password"))
+                .accountNumber("accountNumber")
+                .username("user")
+                .password(new BCryptPasswordEncoder().encode("user"))
                 .currency(Player.Currency.UAH)
                 .enabled(true)
                 .build();

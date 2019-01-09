@@ -17,16 +17,30 @@
 <div class="container">
     <div class="login-page">
         <form method="post" class="form-signin" action="/login">
-            <#if logout>
+            <#if logout!false>
                 <div class="alert alert-success" role="alert">
                     You have been logged out successfully!
                 </div>
             </#if>
-            <#if error>
+
+            <#if registered!false>
+                <div class="alert alert-success" role="alert">
+                    You have been registered, use your data to log in!
+                </div>
+            </#if>
+
+            <#if error!false>
                 <div class="alert alert-danger" role="alert">
                     Invalid Username or Password.
                 </div>
             </#if>
+
+            <#if registrationError!false>
+                <div class="alert alert-danger" role="alert">
+                    Username is not unique.
+                </div>
+            </#if>
+
             <h2 class="">Please sign in</h2>
             <div class="form-group">
                 <label for="username" class="sr-only">Username</label>
@@ -75,6 +89,7 @@
                     <option>EUR</option>
                 </select>
             </div>
+            <input name="${_csrf.parameterName}" type="hidden" value="${_csrf.token}"/>
             <button type="submit" class="btn btn-primary">Register</button>
             <p>Already have an account? <a href="javascript:void(0);" onclick="switchToLoginForm()">Sign In</a></p>
         </form>

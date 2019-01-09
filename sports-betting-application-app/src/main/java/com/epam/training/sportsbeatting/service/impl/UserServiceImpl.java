@@ -1,7 +1,9 @@
 package com.epam.training.sportsbeatting.service.impl;
 
+import java.util.Optional;
+
 import com.epam.training.sportsbeatting.domain.user.Player;
-import com.epam.training.sportsbeatting.repository.PlayerDao;
+import com.epam.training.sportsbeatting.domain.user.User;
 import com.epam.training.sportsbeatting.repository.UserDao;
 import com.epam.training.sportsbeatting.service.UserService;
 
@@ -14,13 +16,18 @@ import org.springframework.stereotype.Service;
 public class UserServiceImpl implements UserService {
 
     @Autowired
-    private PlayerDao playerDao;
-    @Autowired
     private UserDao userDao;
 
     @Override
-    public void registerPlayer(Player player) {
-        playerDao.save(player);
+    public Optional<Player> registerPlayer(Player player) {
+        final Optional<User> userByName = userDao.getUserByName(player.getUsername());
+        if (userByName.isPresent()) {
+            return Optional.empty();
+        } else {
+            userDao.save(player);
+            return Optional.of(player);
+        }
+
     }
 
     @Override
