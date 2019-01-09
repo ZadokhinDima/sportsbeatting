@@ -36,3 +36,7 @@
 .hide {
     display: none;
 }
+
+.change-view p {
+    display: inline;
+}

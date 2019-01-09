@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Please sign in</title>
+    <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/4.1.0/css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/custom.css"/>
+    <script src="/webjars/jquery/3.0.0/jquery.min.js"></script>
+    <script src="/js/scripts.js"></script>
+</head>
+<body>
+<div class="login-top-bar">
+    <h2 th:text="#{login.header.welcome}"></h2>
+    <p th:text="#{login.header.description}"></p>
+</div>
+<div class="container">
+    <div class="login-page">
+        <form method="post" class="form-signin" action="/login">
+
+                <div th:if="${logout}" th:text="#{login.logout.alert}" class="alert alert-success" role="alert">
+                </div>
+
+                <div th:if="${registered}" th:text="#{login.registered.alert}" class="alert alert-success" role="alert">
+                </div>
+
+                <div th:if="${error}" th:text="#{login.error.alert}" class="alert alert-danger" role="alert"></div>
+
+                <div th:if="${registrationError}"
+                     th:text="#{login.registrationError.alert}" class="alert alert-danger" role="alert"></div>
+
+            <h2 th:text="#{form.login.header}"></h2>
+            <div class="form-group">
+                <label for="username" class="sr-only">Username</label>
+                <input type="text" class="form-control" id="username" name="username"
+                       th:placeholder="#{form.login.placeholder.username}" required autofocus>
+            </div>
+            <div class="form-group">
+                <label for="password" class="sr-only">Password</label>
+                <input type="password" class="form-control" id="password" name="password"
+                       th:placeholder="#{form.login.placeholder.password}">
+            </div>
+            <input th:name="${_csrf.parameterName}" th:value="${_csrf.token}" type="hidden" />
+            <button type="submit" class="btn btn-primary" th:text="#{form.registration.login.link}"></button>
+            <div class="change-view form-group">
+                <p th:text="#{form.login.registration.hint}"></p>
+                <a href="javascript:void(0);" onclick="switchToRegisterForm()" th:text="#{form.login.registration.link}"></a>
+            </div>
+        </form>
+    </div>
+    <div class="registration-page hide">
+        <form method="post" class="form-registration" action="/registration">
+            <h2 th:text="#{form.registration.header}"></h2>
+            <div class="form-group">
+                <label for="username" class="sr-only">Username</label>
+                <input type="text" class="form-control" name="username" th:placeholder="#{form.login.placeholder.username}" required
+                    autofocus>
+            </div>
+            <div class="form-group">
+                <label for="password" class="sr-only">Password</label>
+                <input type="password" class="form-control" name="password" th:placeholder="#{form.login.placeholder.password}">
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control" name="name" th:placeholder="#{form.registration.placeholder.name}">
+            </div>
+            <div class="form-group">
+                <input type="text" onfocus="(this.type='date')" onblur="if(this.value===''){this.type='text'}"
+                       class="form-control" name="birthDate" th:placeholder="#{form.registration.placeholder.birthDate}">
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control" name="accountNumber" th:placeholder="#{form.registration.placeholder.accountNumber}">
+            </div>
+            <div class="input-group form-group">
+                <input type="text" class="form-control" name="balance" th:placeholder="#{form.registration.placeholder.balance}">
+                <select class="form-control currency-selector" name="currency">
+                    <option selected>UAH</option>
+                    <option>USD</option>
+                    <option>EUR</option>
+                </select>
+            </div>
+            <input th:name="${_csrf.parameterName}" th:value="${_csrf.token}" type="hidden" />
+            <button type="submit" class="btn btn-primary" th:text="#{form.login.registration.link}"></button>
+            <div class="change-view form-group">
+                <p th:text="#{form.registration.login.hint}"></p>
+                <a href="javascript:void(0);" onclick="switchToLoginForm()" th:text="#{form.registration.login.link}"></a>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>

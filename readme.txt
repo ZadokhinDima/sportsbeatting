@@ -6,4 +6,5 @@ Technologies:
 -Spring Boot
 -Spring MVC
 -Spring Security
+-Thymeleaf
 -Jenkins
