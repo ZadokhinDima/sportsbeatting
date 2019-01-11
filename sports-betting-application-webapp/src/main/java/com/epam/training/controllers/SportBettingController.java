@@ -3,6 +3,8 @@ package com.epam.training.controllers;
 import java.util.Objects;
 import java.util.Optional;
 
+import javax.validation.Valid;
+
 import com.epam.training.dto.UserRegistrationData;
 import com.epam.training.facade.UserFacade;
 import com.epam.training.sportsbeatting.domain.user.Player;
@@ -30,7 +32,7 @@ public class SportBettingController {
     }
 
     @PostMapping("/registration")
-    public String registration(UserRegistrationData userRegistrationData, Model model) {
+    public String registration(@Valid UserRegistrationData userRegistrationData, Model model) {
         final Optional<Player> registeredUser = userFacade.registerUser(userRegistrationData);
         model.addAttribute("registered", registeredUser.isPresent());
         model.addAttribute("registrationError", !registeredUser.isPresent());
