@@ -21,7 +21,7 @@
                 <div th:if="${logout}" th:text="#{login.logout.alert}" class="alert alert-success" role="alert">
                 </div>
 
-                <div th:if="${registered}" th:text="#{login.registered.alert}" class="alert alert-success" role="alert">
+            <div class="alert alert-success" role="alert" th:if="${registered}" th:text="#{login.registration.alert}">
                 </div>
 
                 <div th:if="${error}" th:text="#{login.error.alert}" class="alert alert-danger" role="alert"></div>

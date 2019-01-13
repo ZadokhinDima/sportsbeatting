@@ -35,4 +35,14 @@ public class UserServiceImpl implements UserService {
         return userDao.getUserByName(userName)
                 .orElseThrow(() -> new UsernameNotFoundException("User with name " + userName + "not found."));
     }
+
+    @Override
+    public void updateUserInfo(final User user) {
+        userDao.save(user);
+    }
+
+    @Override
+    public User getUserById(final Long id) {
+        return userDao.get(id);
+    }
 }

@@ -1,6 +1,7 @@
 package com.epam.training.sportsbeatting.aspect;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -39,7 +40,8 @@ public class ServiceExecutionDetailsAspect {
 
     @AfterReturning(pointcut = "serviceLayerMethods()", returning = "result")
     private void logMethodResult(JoinPoint joinPoint, Object result) {
-        logger.info("Method {} returned result {}.", joinPoint.getSignature().toString(), result.toString());
+        logger.info("Method {} returned result {}.", joinPoint.getSignature().toString(),
+                Objects.isNull(result) ? "null" : result.toString());
     }
 
     @Pointcut("@within(org.springframework.stereotype.Service)")

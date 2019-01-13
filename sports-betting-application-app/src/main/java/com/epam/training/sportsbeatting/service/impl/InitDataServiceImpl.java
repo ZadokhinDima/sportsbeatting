@@ -1,9 +1,12 @@
 package com.epam.training.sportsbeatting.service.impl;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import javax.annotation.PostConstruct;
 
 import com.epam.training.sportsbeatting.domain.bet.Bet;
 import com.epam.training.sportsbeatting.domain.outcome.Outcome;
@@ -11,13 +14,19 @@ import com.epam.training.sportsbeatting.domain.outcome.OutcomeOdd;
 import com.epam.training.sportsbeatting.domain.sportevent.FootballSportEvent;
 import com.epam.training.sportsbeatting.domain.sportevent.SportEvent;
 import com.epam.training.sportsbeatting.domain.sportevent.TennisSportEvent;
+import com.epam.training.sportsbeatting.domain.user.Player;
+import com.epam.training.sportsbeatting.domain.user.User;
+import com.epam.training.sportsbeatting.domain.wager.Wager;
 import com.epam.training.sportsbeatting.repository.BetDao;
 import com.epam.training.sportsbeatting.repository.OutcomeDao;
 import com.epam.training.sportsbeatting.repository.OutcomeOddDao;
 import com.epam.training.sportsbeatting.repository.SportEventDao;
+import com.epam.training.sportsbeatting.repository.UserDao;
+import com.epam.training.sportsbeatting.repository.WagerDao;
 import com.epam.training.sportsbeatting.service.InitDataService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -32,12 +41,52 @@ public class InitDataServiceImpl implements InitDataService {
     private OutcomeDao outcomeDao;
     @Autowired
     private OutcomeOddDao outcomeOddDao;
+    @Autowired
+    private UserDao userDao;
+    @Autowired
+    private WagerDao wagerDao;
 
     @Override
+    @PostConstruct
     public void initDataForGame() {
+        initializeUser();
         sportEventDao.save(createFootballSportEvent());
         sportEventDao.save(createTennisSportEvent());
+        initWager();
+        initWager();
+        initWager();
+        initWager();
+        initWager();
     }
+
+    private void initWager() {
+        final Player player = (Player) userDao.get(1L);
+        OutcomeOdd outcomeOdd = outcomeOddDao.getAll().get(0);
+        final Wager newWager = Wager.builder()
+                .amount(500L)
+                .player(player)
+                .currency(player.getCurrency())
+                .outcomeOdd(outcomeOdd)
+                .processed(false)
+                .build();
+        wagerDao.save(newWager);
+    }
+
+    private void initializeUser() {
+        User player = Player.builder()
+                .balance(1000)
+                .accountNumber("accountNumber")
+                .username("user")
+                .name("Dimon")
+                .dateOfBirth(LocalDate.now().minusYears(18))
+                .password(new BCryptPasswordEncoder().encode("user"))
+                .currency(Player.Currency.UAH)
+                .enabled(true)
+                .build();
+        userDao.save(player);
+    }
+
+
 
     private FootballSportEvent createFootballSportEvent() {
         final FootballSportEvent footballSportEvent = FootballSportEvent.builder()

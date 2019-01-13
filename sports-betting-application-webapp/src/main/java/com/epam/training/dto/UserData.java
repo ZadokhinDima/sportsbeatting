@@ -9,7 +9,7 @@ import javax.validation.constraints.Size;
 import com.epam.training.sportsbeatting.domain.user.Player;
 
 @Data
-public class UserRegistrationData {
+public class UserData {
 
     @Email
     private String username;

@@ -40,3 +40,16 @@
 .change-view p {
     display: inline;
 }
+
+.nav-right {
+    float: right;
+}
+
+.home-column {
+    padding-top: 20px;
+    padding-left: 20px;
+}
+
+.card {
+    margin-top: 10px;
+}

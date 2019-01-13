@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.epam.training.sportsbeatting.domain.outcome.OutcomeOdd;
+import com.epam.training.sportsbeatting.domain.user.Player;
 import com.epam.training.sportsbeatting.domain.wager.Wager;
 import com.epam.training.sportsbeatting.repository.WagerDao;
 
@@ -15,5 +16,11 @@ public class InMemoryWagerDao extends GenericInMemoryDao<Wager> implements Wager
     @Override
     public List<Wager> getWagersForOutcomeOdd(final OutcomeOdd outcomeOdd) {
         return getAll().stream().filter(wager -> wager.getOutcomeOdd().equals(outcomeOdd)).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Wager> getWagersForPlayer(final Player player) {
+        return getAll().stream()
+                .filter(wager -> wager.getPlayer().getId().equals(player.getId())).collect(Collectors.toList());
     }
 }

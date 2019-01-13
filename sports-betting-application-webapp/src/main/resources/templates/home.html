@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Home</title>
+    <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/4.1.0/css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/custom.css"/>
+    <script src="/webjars/jquery/3.0.0/jquery.min.js"></script>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="navbar-nav">
+        <a class="nav-item nav-link active" th:text="#{navbar.home}"></a>
+        <a class="nav-item nav-link" href="/events" th:text="#{navbar.events}"></a>
+        <a class="nav-item nav-link" href="/logout" th:text="#{navbar.logout}"></a>
+    </div>
+    <div class="navbar-nav ml-auto">
+        <a class="nav-item nav-link" href="/home?lang=ru" th:text="#{navbar.locale.ru}"></a>
+        <a class="nav-item nav-link" href="/home?lang=eng" th:text="#{navbar.locale.eng}"></a>
+    </div>
+</nav>
+<div class="row">
+    <div class="home-column col">
+        <h1 class="display-4" th:text="#{home.user.header}"></h1>
+        <form action="/home/user" method="post">
+            <input name="_method" type="hidden" value="PUT"/>
+            <input th:name="${_csrf.parameterName}" th:value="${_csrf.token}" type="hidden"/>
+            <input name="id" th:value="${user.id}" type="hidden">
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label" for="username" th:text="#{home.user.username}"></label>
+                <div class="col-sm-9">
+                    <input class="form-control" id="username" name="username" readonly th:value="${user.username}"
+                           type="text"/>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label" for="name" th:text="#{home.user.name}"></label>
+                <div class="col-sm-9">
+                    <input class="form-control" id="name" name="name" th:value="${user.name}"
+                           type="text"/>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label" for="birthDate" th:text="#{home.user.birthDate}"></label>
+                <div class="col-sm-9">
+                    <input class="form-control" id="birthDate" name="birthDate" readonly th:value="${user.dateOfBirth}"
+                           type="text"/>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label" for="balance" th:text="#{home.user.balance}"></label>
+                <div class="col-sm-9">
+                    <input class="form-control" id="balance" name="balance" readonly
+                           th:value="${user.balance} + ' ' + ${user.currency}"
+                           type="text">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label" for="accountNumber"
+                       th:text="#{home.user.accountNmber}"></label>
+                <div class="col-sm-9">
+                    <input class="form-control" id="accountNumber" name="accountNumber" th:value="${user.accountNumber}"
+                           type="text">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label" for="password" th:text="#{home.user.changePassword}"></label>
+                <div class="col-sm-9">
+                    <input class="form-control" id="password" name="newPassword" type="password">
+                </div>
+            </div>
+            <button class="btn btn-primary col-sm-12" th:text="#{home.user.submit}" type="submit"></button>
+        </form>
+    </div>
+    <div class="col home-column">
+        <h1 class="display-4" th:text="#{home.wager.header}"></h1>
+        <th:block th:each="wager : ${wagers}">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title" th:text="${wager.outcomeOdd.outcome.bet.sportEvent.title}"></h5>
+                    <p class="card-text"
+                       th:text="${wager.outcomeOdd.outcome.bet.description} + ': ' + ${wager.outcomeOdd.outcome.value}"></p>
+                    <p class="card-text" th:text="#{home.wager.odd} + ' ' + ${wager.outcomeOdd.odd}"></p>
+                    <p class="card-text" th:text="#{home.wager.valid} + ' ' + ${wager.outcomeOdd.validTo}"></p>
+                </div>
+                <div class="card-footer">
+                    <form action="/home/wager" method="post">
+                        <input th:name="${_csrf.parameterName}" th:value="${_csrf.token}" type="hidden"/>
+                        <input name="_method" type="hidden" value="DELETE"/>
+                        <input name="id" th:value="${wager.id}" type="hidden"/>
+                        <button class="btn btn-primary" th:text="#{home.wager.delete}" type="submit"></button>
+                    </form>
+                </div>
+            </div>
+        </th:block>
+    </div>
+</div>
+</body>
+</html>

@@ -14,6 +14,10 @@ public class UserGroup extends PersistableObject implements GrantedAuthority {
 
     private String authority;
 
+    public UserGroup(final String authority) {
+        this.authority = authority;
+    }
+
     @Builder
     public UserGroup(final Long id, final String authority) {
         super(id);
