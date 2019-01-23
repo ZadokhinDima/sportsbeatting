@@ -6,18 +6,26 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 
+import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
+
 import com.epam.training.sportsbeatting.domain.PersistableObject;
+
+import org.springframework.data.annotation.PersistenceConstructor;
 
 @Setter
 @Getter
+@Entity
 public class OutcomeOdd extends PersistableObject {
 
+    @ManyToOne
     private Outcome outcome;
     private double odd;
     private LocalDateTime validFrom;
     private LocalDateTime validTo;
 
     @Builder
+    @PersistenceConstructor
     public OutcomeOdd(final Long id, final Outcome outcome, final double odd, final LocalDateTime validFrom,
                       final LocalDateTime validTo) {
         super(id);

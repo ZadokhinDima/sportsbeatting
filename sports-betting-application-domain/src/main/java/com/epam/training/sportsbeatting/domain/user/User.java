@@ -6,6 +6,11 @@ import lombok.Setter;
 import java.util.Collection;
 import java.util.List;
 
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+
 import com.epam.training.sportsbeatting.domain.PersistableObject;
 import com.epam.training.sportsbeatting.domain.usergroup.UserGroup;
 
@@ -14,10 +19,15 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 @Setter
 @Getter
+@Entity
 public abstract class User extends PersistableObject implements UserDetails {
 
     private String username;
     private String password;
+    @ManyToMany
+    @JoinTable(name = "role_user",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
     private List<UserGroup> userGroups;
     private boolean enabled;
 

@@ -98,5 +98,4 @@ public class WagerServiceImpl implements WagerService {
         wagerDao.save(wager);
     }
 
-
 }

@@ -4,12 +4,16 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.Entity;
+
 import com.epam.training.sportsbeatting.domain.PersistableObject;
 
+import org.springframework.data.annotation.PersistenceConstructor;
 import org.springframework.security.core.GrantedAuthority;
 
 @Setter
 @Getter
+@Entity
 public class UserGroup extends PersistableObject implements GrantedAuthority {
 
     private String authority;
@@ -19,6 +23,7 @@ public class UserGroup extends PersistableObject implements GrantedAuthority {
     }
 
     @Builder
+    @PersistenceConstructor
     public UserGroup(final Long id, final String authority) {
         super(id);
         this.authority = authority;

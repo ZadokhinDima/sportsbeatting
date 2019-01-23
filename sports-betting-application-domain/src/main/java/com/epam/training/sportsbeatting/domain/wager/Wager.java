@@ -6,15 +6,23 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 
+import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
+
 import com.epam.training.sportsbeatting.domain.PersistableObject;
 import com.epam.training.sportsbeatting.domain.outcome.OutcomeOdd;
 import com.epam.training.sportsbeatting.domain.user.Player;
 
+import org.springframework.data.annotation.PersistenceConstructor;
+
 @Setter
 @Getter
+@Entity
 public class Wager extends PersistableObject {
 
+    @ManyToOne
     private Player player;
+    @ManyToOne
     private OutcomeOdd outcomeOdd;
     private Long amount;
     private Player.Currency currency;
@@ -23,6 +31,7 @@ public class Wager extends PersistableObject {
     private Boolean won;
 
     @Builder
+    @PersistenceConstructor
     public Wager(final Long id, final Player player, final OutcomeOdd outcomeOdd, final Long amount,
                  final Player.Currency currency, final LocalDateTime timestamp, final Boolean processed,
                  final Boolean won) {
