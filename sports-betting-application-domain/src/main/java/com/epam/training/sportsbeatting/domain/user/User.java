@@ -7,6 +7,7 @@ import lombok.Setter;
 import java.util.Collection;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -24,6 +25,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 @NoArgsConstructor
 public abstract class User extends PersistableObject implements UserDetails {
 
+    @Column(unique = true)
     private String username;
     private String password;
     @ManyToMany
