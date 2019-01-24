@@ -12,7 +12,6 @@ import com.epam.training.facade.WagerFacade;
 import com.epam.training.sportsbeatting.domain.user.Player;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -58,7 +57,6 @@ public class SportBettingController {
     }
 
     @RequestMapping("/home")
-    @Secured("ROLE_PLAYER")
     public String home(Model model) {
         model.addAttribute("user", userFacade.getCurrentPlayerInfo());
         model.addAttribute("wagers", wagerFacade.getAllWagersForCurrentUser());
@@ -66,7 +64,6 @@ public class SportBettingController {
     }
 
     @RequestMapping("/events")
-    @Secured("ROLE_PLAYER")
     public String events() {
         return "events";
     }

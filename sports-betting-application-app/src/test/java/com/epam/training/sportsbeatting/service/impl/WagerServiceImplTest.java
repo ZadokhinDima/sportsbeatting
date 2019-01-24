@@ -118,8 +118,8 @@ public class WagerServiceImplTest {
         Player player2 = mock(Player.class);
         Wager wager1 = Wager.builder().outcomeOdd(outcomeOdd1).player(player1).amount(100L).build();
         Wager wager2 = Wager.builder().outcomeOdd(outcomeOdd2).player(player2).amount(100L).build();
-        when(wagerDao.getWagersForOutcomeOdd(outcomeOdd1)).thenReturn(Collections.singletonList(wager1));
-        when(wagerDao.getWagersForOutcomeOdd(outcomeOdd2)).thenReturn(Collections.singletonList(wager2));
+        when(wagerDao.findByOutcomeOdd(outcomeOdd1)).thenReturn(Collections.singletonList(wager1));
+        when(wagerDao.findByOutcomeOdd(outcomeOdd2)).thenReturn(Collections.singletonList(wager2));
         when(outcomeOdd1.getOdd()).thenReturn(3.);
 
 

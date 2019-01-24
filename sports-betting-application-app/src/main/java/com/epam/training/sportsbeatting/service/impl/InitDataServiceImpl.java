@@ -6,8 +6,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import javax.annotation.PostConstruct;
-
 import com.epam.training.sportsbeatting.domain.bet.Bet;
 import com.epam.training.sportsbeatting.domain.outcome.Outcome;
 import com.epam.training.sportsbeatting.domain.outcome.OutcomeOdd;
@@ -16,7 +14,6 @@ import com.epam.training.sportsbeatting.domain.sportevent.SportEvent;
 import com.epam.training.sportsbeatting.domain.sportevent.TennisSportEvent;
 import com.epam.training.sportsbeatting.domain.user.Player;
 import com.epam.training.sportsbeatting.domain.user.User;
-import com.epam.training.sportsbeatting.domain.wager.Wager;
 import com.epam.training.sportsbeatting.repository.BetDao;
 import com.epam.training.sportsbeatting.repository.OutcomeDao;
 import com.epam.training.sportsbeatting.repository.OutcomeOddDao;
@@ -47,30 +44,12 @@ public class InitDataServiceImpl implements InitDataService {
     private WagerDao wagerDao;
 
     @Override
-    @PostConstruct
     public void initDataForGame() {
         initializeUser();
         sportEventDao.save(createFootballSportEvent());
         sportEventDao.save(createTennisSportEvent());
-        initWager();
-        initWager();
-        initWager();
-        initWager();
-        initWager();
     }
 
-    private void initWager() {
-        final Player player = (Player) userDao.get(1L);
-        OutcomeOdd outcomeOdd = outcomeOddDao.getAll().get(0);
-        final Wager newWager = Wager.builder()
-                .amount(500L)
-                .player(player)
-                .currency(player.getCurrency())
-                .outcomeOdd(outcomeOdd)
-                .processed(false)
-                .build();
-        wagerDao.save(newWager);
-    }
 
     private void initializeUser() {
         User player = Player.builder()

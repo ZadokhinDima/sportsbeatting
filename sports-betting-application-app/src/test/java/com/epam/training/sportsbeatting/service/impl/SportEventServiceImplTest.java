@@ -30,7 +30,7 @@ public class SportEventServiceImplTest {
     public void shouldGetAvailableSportEvents() {
         final SportEvent pastEvent = createSportEventByDate(LocalDateTime.now().minusHours(2));
         final SportEvent futureEvent = createSportEventByDate(LocalDateTime.now().plusHours(2));
-        when(sportEventDao.getAll()).thenReturn(Arrays.asList(pastEvent, futureEvent));
+        when(sportEventDao.findAll()).thenReturn(Arrays.asList(pastEvent, futureEvent));
 
         final List<SportEvent> result = testingInstance.getAvailableSportEventsForWager();
 

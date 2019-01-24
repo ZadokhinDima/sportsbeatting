@@ -2,6 +2,7 @@ package com.epam.training.sportsbeatting.domain.user;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
@@ -14,12 +15,12 @@ import javax.persistence.OneToMany;
 import com.epam.training.sportsbeatting.domain.usergroup.UserGroup;
 import com.epam.training.sportsbeatting.domain.wager.Wager;
 
-import org.springframework.data.annotation.PersistenceConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Setter
 @Getter
 @Entity
+@NoArgsConstructor
 public class Player extends User {
 
     private String name;
@@ -32,7 +33,6 @@ public class Player extends User {
     private Set<Wager> wagers;
 
     @Builder
-    @PersistenceConstructor
     public Player(final Long id, final String username, final String password, final List<UserGroup> userGroups,
                   final boolean enabled, final String name, final String accountNumber, final long balance,
                   final Player.Currency currency, final LocalDate dateOfBirth, final Set<Wager> wagers) {

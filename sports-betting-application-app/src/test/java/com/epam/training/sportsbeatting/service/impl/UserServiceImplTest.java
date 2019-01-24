@@ -1,7 +1,7 @@
 package com.epam.training.sportsbeatting.service.impl;
 
 import com.epam.training.sportsbeatting.domain.user.Player;
-import com.epam.training.sportsbeatting.repository.PlayerDao;
+import com.epam.training.sportsbeatting.repository.UserDao;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -16,7 +16,7 @@ import static org.mockito.Mockito.verify;
 public class UserServiceImplTest {
 
     @Mock
-    private PlayerDao playerDao;
+    private UserDao playerDao;
     @InjectMocks
     private UserServiceImpl testingInstance;
 

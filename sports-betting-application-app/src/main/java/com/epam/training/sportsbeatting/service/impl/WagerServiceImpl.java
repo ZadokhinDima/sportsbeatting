@@ -22,6 +22,10 @@ import org.springframework.stereotype.Service;
 @Service
 public class WagerServiceImpl implements WagerService {
 
+    private final static String WAGER_NOT_FOUND_MESSAGE = "Wager with id %d not found.";
+    private static final String ILLEGAL_RIGHTS_TO_DELETE_WAGER = "Do not have rights to delete wager";
+    private static final String NOT_PLAYER = "Current user is not player";
+
     @Autowired
     private WagerDao wagerDao;
     @Autowired
@@ -47,7 +51,7 @@ public class WagerServiceImpl implements WagerService {
     public void processWagersForSportEvent(final SportEvent sportEvent) {
         sportEvent.getBets().stream().flatMap(bet -> bet.getOutcomes().stream())
                 .flatMap(outcome -> outcome.getOutcomeOdds().stream())
-                .flatMap(outcomeOdd -> wagerDao.getWagersForOutcomeOdd(outcomeOdd).stream())
+                .flatMap(outcomeOdd -> wagerDao.findByOutcomeOdd(outcomeOdd).stream())
                 .forEach(wager -> processWager(wager, sportEvent.getResult()));
     }
 
@@ -64,20 +68,21 @@ public class WagerServiceImpl implements WagerService {
     public List<Wager> getWagersForCurrentPlayer() {
         final User sessionUser = sessionContextService.getSessionUser();
         if (sessionUser instanceof Player) {
-            return wagerDao.getWagersForPlayer((Player) sessionUser);
+            return wagerDao.findByPlayer((Player) sessionUser);
         } else {
-            throw new IllegalArgumentException("Current user is not player");
+            throw new IllegalArgumentException(NOT_PLAYER);
         }
     }
 
     @Override
     public void deleteWager(final Long id) {
-        final Wager wagerToDelete = wagerDao.get(id);
+        final Wager wagerToDelete = wagerDao.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException(String.format(WAGER_NOT_FOUND_MESSAGE, id)));
         if (userAbleToDelete(wagerToDelete) && isWagerValid(wagerToDelete)) {
             userBalanceService.processUserBalanceAddition(wagerToDelete.getPlayer(), wagerToDelete.getAmount());
-            wagerDao.remove(wagerToDelete);
+            wagerDao.delete(wagerToDelete);
         } else {
-            throw new IllegalArgumentException("Do not have rights to delete wager!");
+            throw new IllegalArgumentException(ILLEGAL_RIGHTS_TO_DELETE_WAGER);
         }
     }
 

@@ -2,6 +2,7 @@ package com.epam.training.sportsbeatting.domain.user;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
@@ -16,6 +17,7 @@ import org.springframework.data.annotation.PersistenceConstructor;
 @Getter
 @Setter
 @Entity
+@NoArgsConstructor
 public class Admin extends User {
 
     @Builder

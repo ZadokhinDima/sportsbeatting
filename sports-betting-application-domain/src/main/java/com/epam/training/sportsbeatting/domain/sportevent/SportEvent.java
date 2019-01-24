@@ -1,5 +1,6 @@
 package com.epam.training.sportsbeatting.domain.sportevent;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
@@ -15,6 +16,7 @@ import com.epam.training.sportsbeatting.domain.bet.Bet;
 @Setter
 @Getter
 @Entity
+@NoArgsConstructor
 public abstract class SportEvent extends PersistableObject {
 
     private String title;

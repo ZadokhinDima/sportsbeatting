@@ -1,6 +1,7 @@
 package com.epam.training.sportsbeatting.domain.user;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.Collection;
@@ -20,6 +21,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 @Setter
 @Getter
 @Entity
+@NoArgsConstructor
 public abstract class User extends PersistableObject implements UserDetails {
 
     private String username;

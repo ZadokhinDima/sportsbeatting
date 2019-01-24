@@ -15,12 +15,15 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserServiceImpl implements UserService {
 
+    private final static String USER_NOT_FOUND_MESSAGE = "User with id %d not found.";
+    private final static String USERNAME_NOT_FOUND_MESSAGE = "User with name %s not found.";
+
     @Autowired
     private UserDao userDao;
 
     @Override
     public Optional<Player> registerPlayer(Player player) {
-        final Optional<User> userByName = userDao.getUserByName(player.getUsername());
+        final Optional<User> userByName = userDao.findByUsername(player.getUsername());
         if (userByName.isPresent()) {
             return Optional.empty();
         } else {
@@ -32,8 +35,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDetails loadUserByUsername(final String userName) {
-        return userDao.getUserByName(userName)
-                .orElseThrow(() -> new UsernameNotFoundException("User with name " + userName + "not found."));
+        return userDao.findByUsername(userName)
+                .orElseThrow(() -> new UsernameNotFoundException(String.format(USERNAME_NOT_FOUND_MESSAGE, userName)));
     }
 
     @Override
@@ -43,6 +46,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getUserById(final Long id) {
-        return userDao.get(id);
+        return userDao.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException(String.format(USER_NOT_FOUND_MESSAGE, id)));
     }
 }

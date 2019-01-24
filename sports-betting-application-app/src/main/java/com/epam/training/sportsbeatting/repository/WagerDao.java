@@ -5,12 +5,13 @@ import java.util.List;
 import com.epam.training.sportsbeatting.domain.outcome.OutcomeOdd;
 import com.epam.training.sportsbeatting.domain.user.Player;
 import com.epam.training.sportsbeatting.domain.wager.Wager;
+import com.epam.training.sportsbeatting.repository.generic.CustomJpaRepository;
 
 
-public interface WagerDao extends GenericDao<Wager> {
+public interface WagerDao extends CustomJpaRepository<Wager, Long> {
 
-    List<Wager> getWagersForOutcomeOdd(OutcomeOdd outcomeOdd);
+    List<Wager> findByOutcomeOdd(OutcomeOdd outcomeOdd);
 
-    List<Wager> getWagersForPlayer(Player player);
+    List<Wager> findByPlayer(Player player);
 
 }

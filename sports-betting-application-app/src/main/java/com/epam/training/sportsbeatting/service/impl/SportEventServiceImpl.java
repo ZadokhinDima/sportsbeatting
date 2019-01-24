@@ -19,7 +19,7 @@ public class SportEventServiceImpl implements SportEventService {
 
     @Override
     public List<SportEvent> getAvailableSportEventsForWager() {
-        return sportEventDao.getAll().stream().filter(this::isSportEventAvailableForWager).collect(Collectors.toList());
+        return sportEventDao.findAll().stream().filter(this::isSportEventAvailableForWager).collect(Collectors.toList());
     }
 
     private boolean isSportEventAvailableForWager(final SportEvent sportEvent) {

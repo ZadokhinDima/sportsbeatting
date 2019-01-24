@@ -2,6 +2,7 @@ package com.epam.training.sportsbeatting.domain.usergroup;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.Entity;
@@ -14,6 +15,7 @@ import org.springframework.security.core.GrantedAuthority;
 @Setter
 @Getter
 @Entity
+@NoArgsConstructor
 public class UserGroup extends PersistableObject implements GrantedAuthority {
 
     private String authority;

@@ -2,6 +2,7 @@ package com.epam.training.sportsbeatting.domain.outcome;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
@@ -16,6 +17,7 @@ import org.springframework.data.annotation.PersistenceConstructor;
 @Setter
 @Getter
 @Entity
+@NoArgsConstructor
 public class OutcomeOdd extends PersistableObject {
 
     @ManyToOne

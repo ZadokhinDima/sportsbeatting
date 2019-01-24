@@ -2,6 +2,7 @@ package com.epam.training.sportsbeatting.domain.bet;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
@@ -20,6 +21,7 @@ import org.springframework.data.annotation.PersistenceConstructor;
 @Setter
 @Getter
 @Entity
+@NoArgsConstructor
 public class Bet extends PersistableObject {
 
     @ManyToOne

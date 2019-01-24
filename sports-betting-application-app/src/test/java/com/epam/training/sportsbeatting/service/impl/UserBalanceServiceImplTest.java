@@ -2,7 +2,7 @@ package com.epam.training.sportsbeatting.service.impl;
 
 import com.epam.training.sportsbeatting.domain.user.Player;
 import com.epam.training.sportsbeatting.exception.NotEnoughBalanceException;
-import com.epam.training.sportsbeatting.repository.PlayerDao;
+import com.epam.training.sportsbeatting.repository.UserDao;
 import com.epam.training.sportsbeatting.service.SessionContextService;
 
 import org.junit.Before;
@@ -24,7 +24,7 @@ public class UserBalanceServiceImplTest {
     @Mock
     private SessionContextService sessionContextService;
     @Mock
-    private PlayerDao playerDao;
+    private UserDao playerDao;
     @InjectMocks
     private UserBalanceServiceImpl testingInstance;
 
