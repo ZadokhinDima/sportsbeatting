@@ -1,6 +1,5 @@
 package com.epam.training.sportsbeatting.domain;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -11,10 +10,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.Version;
 
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
 @MappedSuperclass
 public abstract class PersistableObject {
@@ -22,6 +21,13 @@ public abstract class PersistableObject {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Version
+    private Long version;
+
+    public PersistableObject(final Long id) {
+        this.id = id;
+    }
 
     @Override
     public boolean equals(final Object o) {

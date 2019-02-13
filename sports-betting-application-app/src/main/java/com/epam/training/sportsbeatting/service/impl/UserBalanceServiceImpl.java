@@ -1,12 +1,16 @@
 package com.epam.training.sportsbeatting.service.impl;
 
+import javax.transaction.Transactional;
+
 import com.epam.training.sportsbeatting.domain.user.Player;
 import com.epam.training.sportsbeatting.exception.NotEnoughBalanceException;
 import com.epam.training.sportsbeatting.repository.UserDao;
 import com.epam.training.sportsbeatting.service.SessionContextService;
 import com.epam.training.sportsbeatting.service.UserBalanceService;
 
+import org.hibernate.StaleObjectStateException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -25,6 +29,8 @@ public class UserBalanceServiceImpl implements UserBalanceService {
     }
 
     @Override
+    @Transactional(Transactional.TxType.REQUIRES_NEW)
+    @Retryable(StaleObjectStateException.class)
     public void processUserBalanceSpending(final Player player, final Long amount) throws NotEnoughBalanceException {
         if (checkUserBalance(amount)) {
             final long newBalance = player.getBalance() - amount;
@@ -36,6 +42,8 @@ public class UserBalanceServiceImpl implements UserBalanceService {
     }
 
     @Override
+    @Transactional(Transactional.TxType.REQUIRES_NEW)
+    @Retryable(StaleObjectStateException.class)
     public void processUserBalanceAddition(final Player player, final Long amount) {
         userDao.refresh(player);
         final long newBalance = player.getBalance() + amount;

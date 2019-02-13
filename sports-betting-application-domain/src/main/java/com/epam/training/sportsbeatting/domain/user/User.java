@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Collection;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -16,14 +15,14 @@ import javax.persistence.ManyToMany;
 import com.epam.training.sportsbeatting.domain.PersistableObject;
 import com.epam.training.sportsbeatting.domain.usergroup.UserGroup;
 
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 @Setter
 @Getter
 @Entity
 @NoArgsConstructor
-public abstract class User extends PersistableObject implements UserDetails {
+public abstract class User extends PersistableObject {
 
     @Column(unique = true)
     private String username;
@@ -32,6 +31,7 @@ public abstract class User extends PersistableObject implements UserDetails {
     @JoinTable(name = "role_user",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
+    @Cascade(CascadeType.ALL)
     private List<UserGroup> userGroups;
     private boolean enabled;
 
@@ -44,23 +44,4 @@ public abstract class User extends PersistableObject implements UserDetails {
         this.enabled = enabled;
     }
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return userGroups;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
 }

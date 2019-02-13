@@ -10,13 +10,12 @@ import javax.persistence.Entity;
 import com.epam.training.sportsbeatting.domain.PersistableObject;
 
 import org.springframework.data.annotation.PersistenceConstructor;
-import org.springframework.security.core.GrantedAuthority;
 
 @Setter
 @Getter
 @Entity
 @NoArgsConstructor
-public class UserGroup extends PersistableObject implements GrantedAuthority {
+public class UserGroup extends PersistableObject {
 
     private String authority;
 

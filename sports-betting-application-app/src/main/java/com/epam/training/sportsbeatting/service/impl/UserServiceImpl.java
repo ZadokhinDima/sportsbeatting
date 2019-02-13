@@ -5,6 +5,7 @@ import java.util.Optional;
 import com.epam.training.sportsbeatting.domain.user.Player;
 import com.epam.training.sportsbeatting.domain.user.User;
 import com.epam.training.sportsbeatting.repository.UserDao;
+import com.epam.training.sportsbeatting.security.ApplicationUserDetails;
 import com.epam.training.sportsbeatting.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +16,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserServiceImpl implements UserService {
 
-    private final static String USER_NOT_FOUND_MESSAGE = "User with id %d not found.";
-    private final static String USERNAME_NOT_FOUND_MESSAGE = "User with name %s not found.";
+    private static final String USER_NOT_FOUND_MESSAGE = "User with id %d not found.";
+    private static final String USERNAME_NOT_FOUND_MESSAGE = "User with name %s not found.";
 
     @Autowired
     private UserDao userDao;
@@ -35,8 +36,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDetails loadUserByUsername(final String userName) {
-        return userDao.findByUsername(userName)
+        final User user = userDao.findByUsername(userName)
                 .orElseThrow(() -> new UsernameNotFoundException(String.format(USERNAME_NOT_FOUND_MESSAGE, userName)));
+        return new ApplicationUserDetails(user);
     }
 
     @Override

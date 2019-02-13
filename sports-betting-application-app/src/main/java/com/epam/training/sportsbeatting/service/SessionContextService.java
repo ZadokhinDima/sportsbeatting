@@ -6,6 +6,4 @@ public interface SessionContextService {
 
     User getSessionUser();
 
-    void setSessionUser(User user);
-
 }

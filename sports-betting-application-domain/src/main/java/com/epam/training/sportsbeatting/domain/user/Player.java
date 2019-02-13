@@ -15,6 +15,8 @@ import javax.persistence.OneToMany;
 import com.epam.training.sportsbeatting.domain.usergroup.UserGroup;
 import com.epam.training.sportsbeatting.domain.wager.Wager;
 
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Setter
@@ -30,6 +32,7 @@ public class Player extends User {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate dateOfBirth;
     @OneToMany(mappedBy = "player")
+    @Cascade(CascadeType.ALL)
     private Set<Wager> wagers;
 
     @Builder
