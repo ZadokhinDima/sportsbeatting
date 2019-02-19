@@ -22,6 +22,12 @@ public class SportEventServiceImpl implements SportEventService {
         return sportEventDao.findAll().stream().filter(this::isSportEventAvailableForWager).collect(Collectors.toList());
     }
 
+    @Override
+    public SportEvent createSportEvent(final SportEvent sportEvent) {
+        sportEventDao.save(sportEvent);
+        return sportEvent;
+    }
+
     private boolean isSportEventAvailableForWager(final SportEvent sportEvent) {
         return sportEvent.getStartDate().isAfter(LocalDateTime.now());
     }

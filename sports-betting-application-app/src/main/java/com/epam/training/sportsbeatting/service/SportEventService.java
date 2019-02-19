@@ -9,4 +9,6 @@ public interface SportEventService {
 
     List<SportEvent> getAvailableSportEventsForWager();
 
+    SportEvent createSportEvent(SportEvent sportEvent);
+
 }
