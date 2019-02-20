@@ -40,7 +40,6 @@
                 <input type="password" class="form-control" id="password" name="password"
                        th:placeholder="#{form.login.placeholder.password}">
             </div>
-            <input th:name="${_csrf.parameterName}" th:value="${_csrf.token}" type="hidden" />
             <button type="submit" class="btn btn-primary" th:text="#{form.registration.login.link}"></button>
             <div class="change-view form-group">
                 <p th:text="#{form.login.registration.hint}"></p>
@@ -78,7 +77,6 @@
                     <option>EUR</option>
                 </select>
             </div>
-            <input th:name="${_csrf.parameterName}" th:value="${_csrf.token}" type="hidden" />
             <button type="submit" class="btn btn-primary" th:text="#{form.login.registration.link}"></button>
             <div class="change-view form-group">
                 <p th:text="#{form.registration.login.hint}"></p>

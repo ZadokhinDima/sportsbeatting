@@ -9,16 +9,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController("/rest")
+@RestController
 public class SportEventRestController {
 
     @Autowired
     private SportEventFacade sportEventFacade;
 
-    @PostMapping("/event")
-    public ResponseEntity<SportEventData> createSportEvent(@Valid SportEventData sportEventData) {
+    @PostMapping("/rest/event")
+    public ResponseEntity<SportEventData> createSportEvent(@RequestBody @Valid SportEventData sportEventData) {
         return new ResponseEntity<>(sportEventFacade.createSportEvent(sportEventData), HttpStatus.CREATED);
     }
 
