@@ -2,6 +2,9 @@ package com.epam.training.controllers;
 
 import javax.validation.Valid;
 
+import com.epam.training.dto.BetData;
+import com.epam.training.dto.OutcomeData;
+import com.epam.training.dto.OutcomeOddData;
 import com.epam.training.dto.SportEventData;
 import com.epam.training.facade.SportEventFacade;
 
@@ -12,15 +15,30 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController
+@RestController("/rest")
 public class SportEventRestController {
 
     @Autowired
     private SportEventFacade sportEventFacade;
 
-    @PostMapping("/rest/event")
+    @PostMapping("/event")
     public ResponseEntity<SportEventData> createSportEvent(@RequestBody @Valid SportEventData sportEventData) {
         return new ResponseEntity<>(sportEventFacade.createSportEvent(sportEventData), HttpStatus.CREATED);
+    }
+
+    @PostMapping("/bet")
+    public ResponseEntity<SportEventData> addBetToSportEvent(@RequestBody @Valid BetData betData) {
+        return new ResponseEntity<>(sportEventFacade.addBetToSportEvent(betData), HttpStatus.CREATED);
+    }
+
+    @PostMapping("/outcome")
+    public ResponseEntity<SportEventData> addOutcomeToBet(@RequestBody @Valid OutcomeData outcomeData) {
+        return new ResponseEntity<>(sportEventFacade.addOutcomeToBet(outcomeData), HttpStatus.CREATED);
+    }
+
+    @PostMapping("/bet")
+    public ResponseEntity<SportEventData> addOutcomeOddToOutcome(@RequestBody @Valid OutcomeOddData outcomeOddData) {
+        return new ResponseEntity<>(sportEventFacade.addOutcomeOddToOutcome(outcomeOddData), HttpStatus.CREATED);
     }
 
 
