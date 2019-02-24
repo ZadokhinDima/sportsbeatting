@@ -9,10 +9,10 @@ public interface SportEventFacade {
 
     SportEventData createSportEvent(SportEventData sportEventData);
 
-    SportEventData addBetToSportEvent(BetData betData);
+    BetData addBetToSportEvent(BetData betData);
 
-    SportEventData addOutcomeToBet(OutcomeData outcomeData);
+    OutcomeData addOutcomeToBet(OutcomeData outcomeData);
 
-    SportEventData addOutcomeOddToOutcome(OutcomeOddData outcomeOddData);
+    OutcomeOddData addOutcomeOddToOutcome(OutcomeOddData outcomeOddData);
 
 }

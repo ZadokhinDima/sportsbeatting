@@ -44,6 +44,7 @@ public class SportEventServiceImpl implements SportEventService {
     @Override
     public Bet addBetToSportEvent(final Bet bet) {
         betDao.save(bet);
+        bet.getSportEvent().getBets().add(bet);
         return bet;
     }
 

@@ -13,9 +13,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController("/rest")
+@RestController
+@RequestMapping("/rest")
 public class SportEventRestController {
 
     @Autowired
@@ -27,17 +29,17 @@ public class SportEventRestController {
     }
 
     @PostMapping("/bet")
-    public ResponseEntity<SportEventData> addBetToSportEvent(@RequestBody @Valid BetData betData) {
+    public ResponseEntity<BetData> addBetToSportEvent(@RequestBody @Valid BetData betData) {
         return new ResponseEntity<>(sportEventFacade.addBetToSportEvent(betData), HttpStatus.CREATED);
     }
 
     @PostMapping("/outcome")
-    public ResponseEntity<SportEventData> addOutcomeToBet(@RequestBody @Valid OutcomeData outcomeData) {
+    public ResponseEntity<OutcomeData> addOutcomeToBet(@RequestBody @Valid OutcomeData outcomeData) {
         return new ResponseEntity<>(sportEventFacade.addOutcomeToBet(outcomeData), HttpStatus.CREATED);
     }
 
-    @PostMapping("/bet")
-    public ResponseEntity<SportEventData> addOutcomeOddToOutcome(@RequestBody @Valid OutcomeOddData outcomeOddData) {
+    @PostMapping("/outcomeOdd")
+    public ResponseEntity<OutcomeOddData> addOutcomeOddToOutcome(@RequestBody @Valid OutcomeOddData outcomeOddData) {
         return new ResponseEntity<>(sportEventFacade.addOutcomeOddToOutcome(outcomeOddData), HttpStatus.CREATED);
     }
 

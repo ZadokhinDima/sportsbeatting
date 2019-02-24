@@ -1,6 +1,8 @@
 package com.epam.training.facade.impl;
 
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+
+import javax.transaction.Transactional;
 
 import com.epam.training.dto.BetData;
 import com.epam.training.dto.OutcomeData;
@@ -26,6 +28,7 @@ public class SportEventFacadeImpl implements SportEventFacade {
     private SportEventService sportEventService;
 
     @Override
+    @Transactional
     public SportEventData createSportEvent(final SportEventData sportEventData) {
         final SportEvent sportEvent = convertFromSportEventData(sportEventData);
         sportEventService.createSportEvent(sportEvent);
@@ -34,11 +37,12 @@ public class SportEventFacadeImpl implements SportEventFacade {
             sportEventData.getBets().forEach(bet -> bet.setSportEventId(sportEvent.getId()));
             sportEventData.getBets().forEach(this::addBetToSportEvent);
         }
-        return getResponseFromModel(sportEvent);
+        return sportEventData;
     }
 
     @Override
-    public SportEventData addBetToSportEvent(final BetData betData) {
+    @Transactional
+    public BetData addBetToSportEvent(final BetData betData) {
         final Bet bet = convertFromBetData(betData);
         sportEventService.addBetToSportEvent(bet);
         betData.setId(bet.getId());
@@ -46,11 +50,12 @@ public class SportEventFacadeImpl implements SportEventFacade {
             betData.getOutcomes().forEach(outcomeData -> outcomeData.setBetId(bet.getId()));
             betData.getOutcomes().forEach(this::addOutcomeToBet);
         }
-        return getResponseFromModel(bet.getSportEvent());
+        return betData;
     }
 
     @Override
-    public SportEventData addOutcomeToBet(final OutcomeData outcomeData) {
+    @Transactional
+    public OutcomeData addOutcomeToBet(final OutcomeData outcomeData) {
         final Outcome outcome = convertFromOutcomeData(outcomeData);
         sportEventService.addOutcomeToBet(outcome);
         outcomeData.setId(outcome.getId());
@@ -58,15 +63,16 @@ public class SportEventFacadeImpl implements SportEventFacade {
             outcomeData.getOutcomeOdds().forEach(outcomeOddData -> outcomeOddData.setOutcomeId(outcome.getId()));
             outcomeData.getOutcomeOdds().forEach(this::addOutcomeOddToOutcome);
         }
-        return getResponseFromModel(outcome.getBet().getSportEvent());
+        return outcomeData;
     }
 
     @Override
-    public SportEventData addOutcomeOddToOutcome(final OutcomeOddData outcomeOddData) {
+    @Transactional
+    public OutcomeOddData addOutcomeOddToOutcome(final OutcomeOddData outcomeOddData) {
         final OutcomeOdd outcomeOdd = convertFromOutcomeOddData(outcomeOddData);
         sportEventService.addOutcomeOddToOutcome(outcomeOdd);
         outcomeOddData.setId(outcomeOdd.getId());
-        return getResponseFromModel(outcomeOdd.getOutcome().getBet().getSportEvent());
+        return outcomeOddData;
     }
 
     private SportEvent convertFromSportEventData(final SportEventData sportEventData) {
@@ -74,11 +80,13 @@ public class SportEventFacadeImpl implements SportEventFacade {
             return FootballSportEvent.builder().title(sportEventData.getTitle())
                     .startDate(sportEventData.getStartTime())
                     .endDate(sportEventData.getEndTime())
+                    .bets(new ArrayList<>())
                     .build();
         } else {
             return TennisSportEvent.builder().title(sportEventData.getTitle())
                     .startDate(sportEventData.getStartTime())
                     .endDate(sportEventData.getEndTime())
+                    .bets(new ArrayList<>())
                     .build();
         }
     }
@@ -87,6 +95,7 @@ public class SportEventFacadeImpl implements SportEventFacade {
         return Bet.builder()
                 .betType(betData.getType())
                 .description(betData.getDescription())
+                .outcomes(new ArrayList<>())
                 .sportEvent(sportEventService.getSportEvent(betData.getSportEventId()))
                 .build();
     }
@@ -95,6 +104,7 @@ public class SportEventFacadeImpl implements SportEventFacade {
         return Outcome.builder()
                 .value(outcomeData.getValue())
                 .bet(sportEventService.getBet(outcomeData.getBetId()))
+                .outcomeOdds(new ArrayList<>())
                 .build();
     }
 
@@ -107,44 +117,4 @@ public class SportEventFacadeImpl implements SportEventFacade {
                 .build();
     }
 
-
-
-    private SportEventData getResponseFromModel(final SportEvent sportEvent) {
-        final SportEventData.SportEventDataBuilder builder = SportEventData.builder()
-                .id(sportEvent.getId())
-                .endTime(sportEvent.getEndDate())
-                .title(sportEvent.getTitle())
-                .startTime(sportEvent.getStartDate())
-                .bets(sportEvent.getBets().stream().map(this::getResponseFromModel).collect(Collectors.toList()));
-        SportEventData.EventType type = sportEvent instanceof FootballSportEvent ? SportEventData.EventType.FOOTBALL :
-                SportEventData.EventType.TENNIS;
-        return builder.eventType(type).build();
-    }
-
-    private BetData getResponseFromModel(final Bet bet) {
-        return BetData.builder()
-                .id(bet.getId())
-                .description(bet.getDescription())
-                .type(bet.getBetType())
-                .outcomes(bet.getOutcomes().stream().map(this::getResponseFromModel).collect(Collectors.toList()))
-                .build();
-    }
-
-    private OutcomeData getResponseFromModel(final Outcome outcome) {
-        return OutcomeData.builder()
-                .id(outcome.getId())
-                .value(outcome.getValue())
-                .outcomeOdds(outcome.getOutcomeOdds().stream()
-                        .map(this::getResponseFromModel).collect(Collectors.toList()))
-                .build();
-    }
-
-    private OutcomeOddData getResponseFromModel(final OutcomeOdd outcomeOdd) {
-        return OutcomeOddData.builder()
-                .odd(outcomeOdd.getOdd())
-                .validFrom(outcomeOdd.getValidFrom())
-                .validTo(outcomeOdd.getValidTo())
-                .id(outcomeOdd.getId())
-                .build();
-    }
 }

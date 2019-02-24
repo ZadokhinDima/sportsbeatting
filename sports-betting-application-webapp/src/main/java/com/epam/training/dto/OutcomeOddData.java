@@ -11,7 +11,6 @@ import javax.validation.constraints.NotNull;
 @Builder
 public class OutcomeOddData {
     private Long id;
-    @NotNull
     private Long outcomeId;
     @NotNull
     private double odd;

@@ -1,4 +1,5 @@
 package com.epam.training.sportsbeatting.domain.sportevent;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
